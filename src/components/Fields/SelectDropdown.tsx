@@ -56,7 +56,7 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({
     <div className="relative w-64 " ref={dropdownRef}>
       <button
         type="button"
-        className="w-full flex justify-between items-center px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full flex justify-between items-center px-4 py-2 bg-white border !border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}

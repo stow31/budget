@@ -10,23 +10,26 @@ const client = generateClient<Schema>();
 function App() {
   const { user, signOut } = useAuthenticator();
 
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  // const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
-  useEffect(() => {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
-    });
-  }, []);
+  // useEffect(() => {
+  //   client.models.Todo.observeQuery().subscribe({
+  //     next: (data) => setTodos([...data.items]),
+  //   });
+  // }, []);
 
-  function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
-  }
+  // function createTodo() {
+  //   client.models.Todo.create({ content: window.prompt("Todo content") });
+  // }
 
   return (
-    <main>
-      <h1>{user?.signInDetails?.loginId}'s Finances</h1>
+    <>
       <Navbar signOut={signOut} />
-      <MonthDashboard />
+      <main>
+        <h1>Hello {user?.signInDetails?.loginId}</h1>
+        <MonthDashboard />
+      
+      </main>
       {/* <h1>{user?.signInDetails?.loginId}'s todos</h1>
       <button onClick={signOut}>Sign out</button>
       <button onClick={createTodo}>+ new</button>
@@ -42,7 +45,7 @@ function App() {
           Review next step of this tutorial.
         </a>
       </div> */}
-    </main>
+    </>
   );
 }
 
