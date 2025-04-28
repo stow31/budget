@@ -5,7 +5,6 @@ import { XMarkIcon } from "@heroicons/react/16/solid";
 
 const client = generateClient<Schema>();
 
-
 interface CategoryInputProps {
   isOpen: boolean;
   onSubmit: (category: string) => void;
@@ -14,7 +13,10 @@ interface CategoryInputProps {
 
 const CategoryInput = ({ isOpen, onClose }: CategoryInputProps) => {
   const [internalVisible, setInternalVisible] = useState(isOpen);
-  const [categories, setCategories] = useState<Array<Schema["Category"]["type"]>>([]);
+  const [newCategory, setNewCategory] = useState<string>("");
+  const [categories, setCategories] = useState<
+    Array<Schema["Category"]["type"]>
+  >([]);
 
   useEffect(() => {
     client.models.Category.observeQuery().subscribe({
@@ -22,9 +24,16 @@ const CategoryInput = ({ isOpen, onClose }: CategoryInputProps) => {
     });
   }, []);
 
-  function createCategory() {
-    client.models.Category.create({ name: window.prompt("Category content") });
-  }
+  const createCategory = () => {
+    if (newCategory.trim().length > 0){
+      client.models.Category.create({ name: newCategory });
+      setNewCategory("");
+    }
+  };
+
+  const deleteCategory = (id: string) => {
+    client.models.Category.delete({ id: id });
+  };
 
   useEffect(() => {
     setInternalVisible(isOpen);
@@ -46,16 +55,25 @@ const CategoryInput = ({ isOpen, onClose }: CategoryInputProps) => {
         className="absolute top-2 right-3 size-7 cursor-pointer"
       />
 
-      <div className="">
-      <ul>
-        {categories.map((category) => (
-          <li key={category.id}>{category.name}</li>
-        ))}
-      </ul>
+      <div className="flex flex-col">
+        {categories.length > 0 ? (
+          <ul>
+            {categories.map((category) => (
+              <li className="flex justify-between items-ce" key={category.id}>
+                {category.name}{" "}
+                <XMarkIcon
+                  onClick={() => deleteCategory(category.id)}
+                  className="size-4"
+                />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="text-gray-500 text-center">You don't have any categories yet</div>
+        )}
 
-      <input type="text" />
-      <button onClick={createCategory}>Add Categorie</button>
-
+        <input placeholder="Enter an expense category" value={newCategory} className="my-4 p-2 border text-center rounded-4xl" onChange={(e) => setNewCategory(e.target.value)} type="text" />
+        <button onClick={createCategory}>Add Category</button>
       </div>
     </div>
   );

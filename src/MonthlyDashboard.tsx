@@ -24,20 +24,18 @@ const MonthlyDashboard = () => {
     setShowTransactionInput(false);
   };
 
-  const addCategory = (
-    category: string,
-  ) => {
+  const addCategory = (category: string) => {
     console.log("Adding category", category);
     setShowCategoryInput(false);
   };
 
   return (
     <>
-      {showTransactionInput && (
+      {(showTransactionInput || showCategoryInput) && (
         <div className="fixed inset-0 bg-gray-500 opacity-50 z-50 pointer-events-none"></div>
       )}
       <div className={`mx-auto md:max-w-4xl`}>
-        <div className="flex justify-end py-4">
+        <div className="py-4 flex justify-end gap-3">
           <button onClick={() => setShowCategoryInput(true)}>
             Add Category
           </button>
@@ -77,10 +75,8 @@ const MonthlyDashboard = () => {
 
         <CategoryInput
           isOpen={showCategoryInput}
-          onSubmit={(category: string) =>
-            addCategory(category)
-          }
-          onClose={() => setShowTransactionInput(false)}
+          onSubmit={(category: string) => addCategory(category)}
+          onClose={() => setShowCategoryInput(false)}
         />
       </div>
     </>
