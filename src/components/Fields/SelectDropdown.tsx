@@ -7,6 +7,7 @@ type Option = {
 };
 
 type SelectDropdownProps = {
+  selected?: string;
   options: Option[];
   selectedValue?: string;
   onChange?: (value: string) => void;
@@ -14,6 +15,7 @@ type SelectDropdownProps = {
 };
 
 const SelectDropdown: React.FC<SelectDropdownProps> = ({
+  selected,
   options,
   selectedValue,
   onChange,
@@ -21,7 +23,7 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<string | undefined>(
-    undefined,
+    selected ? selected : undefined,
   );
   const dropdownRef = useRef<HTMLDivElement>(null);
 

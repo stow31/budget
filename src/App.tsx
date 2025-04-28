@@ -8,7 +8,7 @@ import MonthDashboard from "./MonthDashboard";
 const client = generateClient<Schema>();
 
 function App() {
-  const { user, signOut } = useAuthenticator();
+  const { signOut } = useAuthenticator();
 
   // const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
@@ -26,9 +26,7 @@ function App() {
     <>
       <Navbar signOut={signOut} />
       <main>
-        <h1>Hello {user?.signInDetails?.loginId}</h1>
         <MonthDashboard />
-      
       </main>
       {/* <h1>{user?.signInDetails?.loginId}'s todos</h1>
       <button onClick={signOut}>Sign out</button>

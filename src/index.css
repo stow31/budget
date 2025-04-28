@@ -2,7 +2,8 @@
 
 body {
   margin: 0;
-  background: linear-gradient(180deg, rgb(117, 81, 194), rgb(255, 255, 255));
+  /* background: linear-gradient(180deg, rgb(117, 81, 194), rgb(255, 255, 255)); */
+  background-color: #d7d9ff;
   min-width: 320px;
   min-height: 100vh;
 }

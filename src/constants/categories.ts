@@ -1,0 +1,18 @@
+export const categories: { value: string; label: string }[] = [
+  { value: "groceries", label: "Groceries" },
+  { value: "health", label: "Health" },
+  { value: "personal-care", label: "Personal Care" },
+  { value: "travel", label: "Travel" },
+  { value: "home", label: "Home" },
+  { value: "pets", label: "Pets" },
+  { value: "education", label: "Education" },
+  { value: "food", label: "Food" },
+  { value: "entertainment", label: "Entertainment" },
+  { value: "fuel", label: "Fuel" },
+  { value: "shopping", label: "Shopping" },
+  { value: "parking", label: "Parking" },
+  { value: "hazel", label: "Hazel" },
+  { value: "daycare", label: "Daycare" },
+  { value: "social", label: "Social" },
+  { value: "car", label: "Car" },
+];
