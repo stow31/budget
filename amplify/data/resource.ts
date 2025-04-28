@@ -14,7 +14,7 @@ const schema = a.schema({
     .authorization((allow) => [allow.owner()]),
   Category: a
     .model({
-      name: a.string(),
+      name: a.string().required(),
     })
     .authorization((allow) => [allow.owner()]),
   Transaction: a

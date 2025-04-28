@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import SelectDropdown from "./components/Fields/SelectDropdown";
-import { categories } from "./constants/categories";
 import {
   BackspaceIcon,
   CheckIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { generateClient } from "aws-amplify/api";
+import type { Schema } from "../amplify/data/resource";
 
 interface TransactionInputProps {
   isOpen: boolean;
@@ -13,16 +14,33 @@ interface TransactionInputProps {
   onClose?: () => void;
 }
 
+const client = generateClient<Schema>();
+
 const TransactionInput = ({
   isOpen,
   onSubmit,
   onClose,
 }: TransactionInputProps) => {
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState<Array<{ label: string; value: string }>>(
+    []);
   const [comment, setComment] = useState("");
   const [amountText, setAmountText] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
   const [internalVisible, setInternalVisible] = useState(isOpen);
+
+  useEffect(() => {
+    client.models.Category.observeQuery().subscribe({
+      next: (data) => setCategories(mapCategories(data.items)),
+    });
+  }, []);
+
+  const mapCategories = (categoryList: Array<Schema["Category"]["type"]>) => {
+    return categoryList.map((category) => {
+      return { label: category.name, value: category.name.toLowerCase() };
+    });
+  };
+  
 
   useEffect(() => {
     setInternalVisible(isOpen);
