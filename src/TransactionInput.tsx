@@ -3,7 +3,6 @@ import SelectDropdown from "./components/Fields/SelectDropdown";
 import { categories } from "./constants/categories";
 import {
   BackspaceIcon,
-  CheckBadgeIcon,
   CheckIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -35,7 +34,7 @@ const TransactionInput = ({
   }, [amountText]);
 
   const convertTextToNumber = (text: string) => {
-    let amountNumber = parseFloat(text.replace(/[^\d.-]/g, ""));
+    const amountNumber = parseFloat(text.replace(/[^\d.-]/g, ""));
     if (isNaN(amountNumber)) {
       return;
     } else {
@@ -50,7 +49,7 @@ const TransactionInput = ({
         setCategory("");
         setComment("");
         setAmountText("");
-        handleClose()
+        handleClose();
       }, 500);
     }
   };
@@ -59,14 +58,17 @@ const TransactionInput = ({
     if (onClose) {
       onClose();
     }
-    setInternalVisible(false)
-  }
+    setInternalVisible(false);
+  };
 
   return (
     <div
       className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl py-10 px-10 max-w-lg mx-auto transform transition-transform duration-500 ${internalVisible ? "translate-y-0" : "translate-y-full"} z-90`}
     >
-      <XMarkIcon onClick={handleClose} className="absolute top-2 right-3 size-7 cursor-pointer"/>
+      <XMarkIcon
+        onClick={handleClose}
+        className="absolute top-2 right-3 size-7 cursor-pointer"
+      />
       <div className="my-2 flex justify-between">
         <input
           type="date"

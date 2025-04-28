@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
+// import { useEffect, useState } from "react";
+// import type { Schema } from "../amplify/data/resource";
+// import { generateClient } from "aws-amplify/data";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import Navbar from "./components/Navbar";
-import MonthDashboard from "./MonthDashboard";
+import MonthlyDashboard from "./MonthlyDashboard";
 
-const client = generateClient<Schema>();
+// const client = generateClient<Schema>();
 
 function App() {
   const { signOut } = useAuthenticator();
@@ -26,7 +26,7 @@ function App() {
     <>
       <Navbar signOut={signOut} />
       <main>
-        <MonthDashboard />
+        <MonthlyDashboard />
       </main>
       {/* <h1>{user?.signInDetails?.loginId}'s todos</h1>
       <button onClick={signOut}>Sign out</button>
