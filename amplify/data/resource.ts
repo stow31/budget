@@ -10,12 +10,14 @@ const schema = a.schema({
   Category: a
     .model({
       name: a.string().required(),
+      transactions: a.hasMany("Transaction", "categoryId"),
     })
     .authorization((allow) => [allow.owner()]),
   Transaction: a
     .model({
       date: a.date().required(),
-      category: a.string().required(),
+      categoryId: a.id(),
+      category: a.belongsTo("Category", "categoryId"),
       amount: a.float().required(),
       comment: a.string(),
     })

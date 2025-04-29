@@ -4,6 +4,7 @@ import { months } from "./constants/years";
 import TransactionInput from "./TransactionInput";
 import { Tab, Tabs } from "./components/Tabs";
 import CategoryInput from "./CategoryInput";
+import ExpensesByCategory from "./ExpensesByCategory";
 
 const MonthlyDashboard = () => {
   const [showTransactionInput, setShowTransactionInput] = useState(false);
@@ -13,11 +14,6 @@ const MonthlyDashboard = () => {
     const now = new Date();
     const monthIndex = now.getMonth();
     return months[monthIndex].value;
-  };
-
-  const addCategory = (category: string) => {
-    console.log("Adding category", category);
-    setShowCategoryInput(false);
   };
 
   return (
@@ -40,19 +36,23 @@ const MonthlyDashboard = () => {
 
         <Tabs initialIndex={0}>
           <Tab label="Expenses">
-            <div>
-              <button
-                className="float-right"
-                onClick={() => setShowTransactionInput(true)}
-              >
-                Add Transaction
-              </button>
+            <div className="mb-4">
+              <div className="flex justify-end">
+                <button
+                  className="float-right"
+                  onClick={() => setShowTransactionInput(true)}
+                >
+                  Add Transaction
+                </button>
 
-              <TransactionInput
-                isOpen={showTransactionInput}
-                onSubmit={() => setShowTransactionInput(false)}
-                onClose={() => setShowTransactionInput(false)}
-              />
+                <TransactionInput
+                  isOpen={showTransactionInput}
+                  onSubmit={() => setShowTransactionInput(false)}
+                  onClose={() => setShowTransactionInput(false)}
+                />
+              </div>
+
+              <ExpensesByCategory />
             </div>
           </Tab>
           <Tab label="Budget">
@@ -62,7 +62,7 @@ const MonthlyDashboard = () => {
 
         <CategoryInput
           isOpen={showCategoryInput}
-          onSubmit={(category: string) => addCategory(category)}
+          onSubmit={() => setShowCategoryInput(false)}
           onClose={() => setShowCategoryInput(false)}
         />
       </div>

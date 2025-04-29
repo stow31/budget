@@ -10,12 +10,12 @@ import type { Schema } from "../amplify/data/resource";
 
 interface TransactionInputProps {
   isOpen: boolean;
-  onSubmit: (
+  onSubmit?: (
     date: Date,
     category: string,
     amount: number,
     comment?: string,
-  ) => void;
+  ) => void; // TODO: can we remove this?
   onClose?: () => void;
 }
 
@@ -23,31 +23,25 @@ const client = generateClient<Schema>();
 
 const TransactionInput = ({
   isOpen,
-  onSubmit,
   onClose,
 }: TransactionInputProps) => {
-  const [category, setCategory] = useState("");
+  const [categoryId, setCategoryId] = useState("");
   const [date, setDate] = useState<Date>(new Date());
   const [categories, setCategories] = useState<
-    Array<{ label: string; value: string }>
-  >([]);
+  Array<Schema["Category"]["type"]>>([]);
   const [comment, setComment] = useState("");
   const [amountText, setAmountText] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
   const [internalVisible, setInternalVisible] = useState(isOpen);
 
+  // Get Categories from DB
   useEffect(() => {
     client.models.Category.observeQuery().subscribe({
-      next: (data) => setCategories(mapCategories(data.items)),
+      next: (data) => setCategories(data.items),
     });
   }, []);
 
-  const mapCategories = (categoryList: Array<Schema["Category"]["type"]>) => {
-    return categoryList.map((category) => {
-      return { label: category.name, value: category.name.toLowerCase() };
-    });
-  };
-
+  // Set visbility based on props
   useEffect(() => {
     setInternalVisible(isOpen);
   }, [isOpen]);
@@ -56,6 +50,12 @@ const TransactionInput = ({
     const amountNumber = convertTextToNumber(amountText);
     if (amountNumber) setAmount(amountNumber);
   }, [amountText]);
+
+  const mapCategories = (categoryList: Array<Schema["Category"]["type"]>) => {
+    return categoryList.map((category) => {
+      return { label: category.name, value: category.id };
+    });
+  };
 
   const convertTextToNumber = (text: string) => {
     const amountNumber = parseFloat(text.replace(/[^\d.-]/g, ""));
@@ -67,11 +67,10 @@ const TransactionInput = ({
   };
 
   const handleSubmit = () => {
-    if (date && category && amount > 0) {
-      onSubmit(date, category, amount, comment);
-      createTransaction()
+    if (date && categoryId && amount > 0) {
+      createTransaction();
       setTimeout(() => {
-        setCategory("");
+        setCategoryId("");
         setComment("");
         setAmountText("");
         handleClose();
@@ -79,10 +78,10 @@ const TransactionInput = ({
     }
   };
 
-  const createTransaction = () => {
+  const createTransaction = () => {    
     client.models.Transaction.create({
       date: date.toISOString().split("T")[0],
-      category: category,
+      categoryId: categoryId,
       amount: amount,
       comment: comment,
     });
@@ -111,10 +110,10 @@ const TransactionInput = ({
         />
         <SelectDropdown
           onChange={(value) => {
-            setCategory(value);
+            setCategoryId(value);
           }}
-          selectedValue={category}
-          options={categories}
+          selectedValue={categoryId}
+          options={mapCategories(categories)}
         />
       </div>
       <div className="flex flex-col gap-4">
