@@ -15,15 +15,6 @@ const MonthlyDashboard = () => {
     return months[monthIndex].value;
   };
 
-  const addTransaction = (
-    category: string,
-    amount: number,
-    comment?: string,
-  ) => {
-    console.log("Adding transaction", category, amount, comment);
-    setShowTransactionInput(false);
-  };
-
   const addCategory = (category: string) => {
     console.log("Adding category", category);
     setShowCategoryInput(false);
@@ -59,11 +50,7 @@ const MonthlyDashboard = () => {
 
               <TransactionInput
                 isOpen={showTransactionInput}
-                onSubmit={(
-                  category: string,
-                  amount: number,
-                  comment?: string,
-                ) => addTransaction(category, amount, comment)}
+                onSubmit={() => setShowTransactionInput(false)}
                 onClose={() => setShowTransactionInput(false)}
               />
             </div>
