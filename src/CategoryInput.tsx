@@ -25,7 +25,7 @@ const CategoryInput = ({ isOpen, onClose }: CategoryInputProps) => {
   }, []);
 
   const createCategory = () => {
-    if (newCategory.trim().length > 0){
+    if (newCategory.trim().length > 0) {
       client.models.Category.create({ name: newCategory });
       setNewCategory("");
     }
@@ -69,10 +69,18 @@ const CategoryInput = ({ isOpen, onClose }: CategoryInputProps) => {
             ))}
           </ul>
         ) : (
-          <div className="text-gray-500 text-center">You don't have any categories yet</div>
+          <div className="text-gray-500 text-center">
+            You don't have any categories yet
+          </div>
         )}
 
-        <input placeholder="Enter an expense category" value={newCategory} className="my-4 p-2 border text-center rounded-4xl" onChange={(e) => setNewCategory(e.target.value)} type="text" />
+        <input
+          placeholder="Enter an expense category"
+          value={newCategory}
+          className="my-4 p-2 border text-center rounded-4xl"
+          onChange={(e) => setNewCategory(e.target.value)}
+          type="text"
+        />
         <button onClick={createCategory}>Add Category</button>
       </div>
     </div>

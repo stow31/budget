@@ -10,7 +10,12 @@ import type { Schema } from "../amplify/data/resource";
 
 interface TransactionInputProps {
   isOpen: boolean;
-  onSubmit: (category: string, amount: number, comment?: string) => void;
+  onSubmit: (
+    date: Date,
+    category: string,
+    amount: number,
+    comment?: string,
+  ) => void;
   onClose?: () => void;
 }
 
@@ -22,8 +27,10 @@ const TransactionInput = ({
   onClose,
 }: TransactionInputProps) => {
   const [category, setCategory] = useState("");
-  const [categories, setCategories] = useState<Array<{ label: string; value: string }>>(
-    []);
+  const [date, setDate] = useState<Date>(new Date());
+  const [categories, setCategories] = useState<
+    Array<{ label: string; value: string }>
+  >([]);
   const [comment, setComment] = useState("");
   const [amountText, setAmountText] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
@@ -40,7 +47,6 @@ const TransactionInput = ({
       return { label: category.name, value: category.name.toLowerCase() };
     });
   };
-  
 
   useEffect(() => {
     setInternalVisible(isOpen);
@@ -61,8 +67,9 @@ const TransactionInput = ({
   };
 
   const handleSubmit = () => {
-    if (category && amount > 0) {
-      onSubmit(category, amount);
+    if (date && category && amount > 0) {
+      onSubmit(date, category, amount, comment);
+      createTransaction()
       setTimeout(() => {
         setCategory("");
         setComment("");
@@ -70,6 +77,15 @@ const TransactionInput = ({
         handleClose();
       }, 500);
     }
+  };
+
+  const createTransaction = () => {
+    client.models.Transaction.create({
+      date: date.toISOString().split("T")[0],
+      category: category,
+      amount: amount,
+      comment: comment,
+    });
   };
 
   const handleClose = () => {
@@ -90,7 +106,8 @@ const TransactionInput = ({
       <div className="my-2 flex justify-between">
         <input
           type="date"
-          defaultValue={new Date().toISOString().split("T")[0]}
+          value={date.toISOString().split("T")[0]}
+          onChange={(e) => setDate(new Date(e.target.value))}
         />
         <SelectDropdown
           onChange={(value) => {
