@@ -33,7 +33,11 @@ const Navbar = ({ signOut }: NavbarProps) => {
             <a href="#" className="text-gray-600 hover:text-blue-600">
               Home
             </a>
-            {signOut && <button onClick={signOut}>Sign out</button>}
+            {signOut && (
+              <button className="primary" onClick={signOut}>
+                Sign out
+              </button>
+            )}
           </div>
 
           {/* Mobile button */}

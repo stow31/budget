@@ -21,14 +21,12 @@ interface TransactionInputProps {
 
 const client = generateClient<Schema>();
 
-const TransactionInput = ({
-  isOpen,
-  onClose,
-}: TransactionInputProps) => {
+const TransactionInput = ({ isOpen, onClose }: TransactionInputProps) => {
   const [categoryId, setCategoryId] = useState("");
   const [date, setDate] = useState<Date>(new Date());
   const [categories, setCategories] = useState<
-  Array<Schema["Category"]["type"]>>([]);
+    Array<Schema["Category"]["type"]>
+  >([]);
   const [comment, setComment] = useState("");
   const [amountText, setAmountText] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
@@ -44,6 +42,7 @@ const TransactionInput = ({
   // Set visbility based on props
   useEffect(() => {
     setInternalVisible(isOpen);
+    resetForm();
   }, [isOpen]);
 
   useEffect(() => {
@@ -70,15 +69,20 @@ const TransactionInput = ({
     if (date && categoryId && amount > 0) {
       createTransaction();
       setTimeout(() => {
-        setCategoryId("");
-        setComment("");
-        setAmountText("");
+        resetForm();
         handleClose();
       }, 500);
     }
   };
 
-  const createTransaction = () => {    
+  const resetForm = () => {
+    setCategoryId("");
+    setComment("");
+    setAmountText("");
+    setAmount(0);
+  };
+
+  const createTransaction = () => {
     client.models.Transaction.create({
       date: date.toISOString().split("T")[0],
       categoryId: categoryId,
@@ -131,7 +135,7 @@ const TransactionInput = ({
         />
 
         <div className="grid grid-cols-3 gap-1">
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((digit) => (
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((digit) => (
             <button
               key={digit}
               onClick={() => setAmountText(amountText + digit.toString())}

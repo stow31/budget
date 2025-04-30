@@ -1,6 +1,7 @@
 import { generateClient } from "aws-amplify/api";
 import React, { useEffect, useState } from "react";
 import { Schema } from "../amplify/data/resource";
+import { CategoryCard } from "./CategoryCard";
 
 interface ExpensesByCategoryProps {
   //   expenses: {
@@ -22,22 +23,10 @@ const ExpensesByCategory: React.FC<ExpensesByCategoryProps> = () => {
     });
   }, []);
 
-  const getCategorySpend = (id: string) => {
-    return id;
-  }
-
   return (
     <div className="mt-4 max-w-5xl">
       {categories.map((category) => (
-        <div
-          key={category.id}
-          className="my-2 mx-auto px-4 py-6 flex justify-between border border-black rounded-4xl"
-        >
-          <span className="font-bold">{category.name}</span>
-          <span className="text-gray-600">
-            ${getCategorySpend(category.id)}
-          </span>
-        </div>
+        <CategoryCard key={category.id} category={category} />
       ))}
     </div>
   );

@@ -5,10 +5,12 @@ import TransactionInput from "./TransactionInput";
 import { Tab, Tabs } from "./components/Tabs";
 import CategoryInput from "./CategoryInput";
 import ExpensesByCategory from "./ExpensesByCategory";
+import BudgetInput from "./BudgetInput";
 
 const MonthlyDashboard = () => {
   const [showTransactionInput, setShowTransactionInput] = useState(false);
   const [showCategoryInput, setShowCategoryInput] = useState(false);
+  const [showBudgetInput, setShowBudgetInput] = useState(false);
 
   const getCurrentMonthValue = () => {
     const now = new Date();
@@ -23,7 +25,10 @@ const MonthlyDashboard = () => {
       )}
       <div className={`mx-auto md:max-w-4xl`}>
         <div className="py-4 flex justify-end gap-3">
-          <button onClick={() => setShowCategoryInput(true)}>
+          <button
+            className="secondary"
+            onClick={() => setShowCategoryInput(true)}
+          >
             Add Category
           </button>
           <SelectDropdown
@@ -37,18 +42,30 @@ const MonthlyDashboard = () => {
         <Tabs initialIndex={0}>
           <Tab label="Expenses">
             <div className="mb-4">
-              <div className="flex justify-end">
+              <div className="flex gap-1 justify-end">
                 <button
-                  className="float-right"
+                  className="float-right secondary"
                   onClick={() => setShowTransactionInput(true)}
                 >
                   Add Transaction
+                </button>
+
+                <button
+                  className="float-right secondary"
+                  onClick={() => setShowBudgetInput(true)}
+                >
+                  Update Budget
                 </button>
 
                 <TransactionInput
                   isOpen={showTransactionInput}
                   onSubmit={() => setShowTransactionInput(false)}
                   onClose={() => setShowTransactionInput(false)}
+                />
+
+                <BudgetInput
+                  month={getCurrentMonthValue()}
+                  isOpen={showBudgetInput}
                 />
               </div>
 
