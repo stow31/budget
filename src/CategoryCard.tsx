@@ -3,12 +3,16 @@ import { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/api";
 
 export interface CategoryCardProps {
+  month: string;
   category: Schema["Category"]["type"];
 }
 
 const client = generateClient<Schema>();
 
-export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
+export const CategoryCard: React.FC<CategoryCardProps> = ({
+  month,
+  category,
+}) => {
   const [categorySpend, setCategorySpend] = useState(0);
 
   useEffect(() => {
@@ -22,6 +26,9 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
         filter: {
           categoryId: {
             eq: id,
+          },
+          month: {
+            eq: month,
           },
         },
       });

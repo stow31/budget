@@ -29,9 +29,9 @@ const BudgetInput = ({ isOpen, onClose }: BudgetInputProps) => {
     setInternalVisible(isOpen);
   }, [isOpen]);
 
-  const handleSave = () => {
-    // TODO: implement save
-  };
+  // const handleSave = () => {
+  //   // TODO: implement save
+  // };
 
   const handleClose = () => {
     if (onClose) {
@@ -50,10 +50,14 @@ const BudgetInput = ({ isOpen, onClose }: BudgetInputProps) => {
       />
       <div>
         {categories.map((category) => {
-          return (<div className="py-2 flex justify-between border-b border-gray-300">
-            <div>{category.name}</div>
-            <div><input type="number" /></div>
-            </div>);
+          return (
+            <div className="py-2 flex justify-between border-b border-gray-300">
+              <div>{category.name}</div>
+              <div>
+                <input type="number" />
+              </div>
+            </div>
+          );
         })}
       </div>
     </div>

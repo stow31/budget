@@ -15,7 +15,7 @@ const schema = a.schema({
     .authorization((allow) => [allow.owner()]),
   Transaction: a
     .model({
-      date: a.date().required(),
+      month: a.string().required(),
       categoryId: a.id(),
       category: a.belongsTo("Category", "categoryId"),
       amount: a.float().required(),

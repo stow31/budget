@@ -11,6 +11,7 @@ const MonthlyDashboard = () => {
   const [showTransactionInput, setShowTransactionInput] = useState(false);
   const [showCategoryInput, setShowCategoryInput] = useState(false);
   const [showBudgetInput, setShowBudgetInput] = useState(false);
+  const [month, setMonth] = useState<string>("");
 
   const getCurrentMonthValue = () => {
     const now = new Date();
@@ -34,7 +35,7 @@ const MonthlyDashboard = () => {
           <SelectDropdown
             selected={getCurrentMonthValue()}
             options={months}
-            onChange={(value) => console.log("Selected month:", value)}
+            onChange={(value) => setMonth(value)}
             placeholder="Select a month"
           />
         </div>
@@ -69,7 +70,7 @@ const MonthlyDashboard = () => {
                 />
               </div>
 
-              <ExpensesByCategory />
+              <ExpensesByCategory month={month} />
             </div>
           </Tab>
           <Tab label="Budget">

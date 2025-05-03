@@ -83,8 +83,13 @@ const TransactionInput = ({ isOpen, onClose }: TransactionInputProps) => {
   };
 
   const createTransaction = () => {
+    const monthName = date
+      .toLocaleString("default", { month: "long" })
+      .toLowerCase();
+    console.log(monthName);
+
     client.models.Transaction.create({
-      date: date.toISOString().split("T")[0],
+      month: monthName,
       categoryId: categoryId,
       amount: amount,
       comment: comment,

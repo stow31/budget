@@ -4,6 +4,7 @@ import { Schema } from "../amplify/data/resource";
 import { CategoryCard } from "./CategoryCard";
 
 interface ExpensesByCategoryProps {
+  month: string;
   //   expenses: {
   //     category: string;
   //     amount: number;
@@ -12,7 +13,9 @@ interface ExpensesByCategoryProps {
 
 const client = generateClient<Schema>();
 
-const ExpensesByCategory: React.FC<ExpensesByCategoryProps> = () => {
+const ExpensesByCategory: React.FC<ExpensesByCategoryProps> = ({
+  month,
+}: ExpensesByCategoryProps) => {
   const [categories, setCategories] = useState<
     Array<Schema["Category"]["type"]>
   >([]);
@@ -26,7 +29,7 @@ const ExpensesByCategory: React.FC<ExpensesByCategoryProps> = () => {
   return (
     <div className="mt-4 max-w-5xl">
       {categories.map((category) => (
-        <CategoryCard key={category.id} category={category} />
+        <CategoryCard key={category.id} category={category} month={month} />
       ))}
     </div>
   );
